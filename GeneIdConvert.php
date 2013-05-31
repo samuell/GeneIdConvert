@@ -50,6 +50,11 @@ function wfGeneIdConvertParserInit( Parser $parser ) {
  
 // Execute 
 function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $frame ) {
+
+    // Parse any wiki text in the content of the tag:
+    $srcGeneId = $parser->recursiveTagParse( $srcGeneId, $frame );
+
+    // Set some variables
     $ensemblRestBaseUrl = "http://beta.rest.ensembl.org/xrefs/id"; // Without trailing slash
     $targetId = "";
     $toFormat = $args['to'];
