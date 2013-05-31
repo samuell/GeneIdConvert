@@ -57,7 +57,6 @@ function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $f
 
     // Test the new Ensemble REST API with an example gene
     $queryUrl = $ensemblRestBaseUrl . '/' . $srcGeneId . '?content-type=application/json';
-    echo "URL: $queryUrl";
     $resultJson = file_get_contents($queryUrl);
     
     $result = json_decode($resultJson, true);
