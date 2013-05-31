@@ -61,6 +61,8 @@ function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $f
 
     // Construct the Query URL
     $queryUrl = $ensemblRestBaseUrl . '/' . $srcGeneId . '?content-type=application/json';
+    // Need to set this to allow file_get_contents to ask for URLs
+    ini_set('allow_url_fopen', true);
     // Do the actualy querying of the REST API
     $resultJson = file_get_contents($queryUrl);
     // Convert from JSON to associative array structure 
