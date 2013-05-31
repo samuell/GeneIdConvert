@@ -64,7 +64,12 @@ function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $f
     // Get the Gene Id that corresponds to our desired target format
     foreach ($result as $mapping) {
         if ( $mapping['dbname'] == $toFormat ) {
-            $targetId = $mapping['display_id'];
+            if ( $toFormat == 'EntrezGene' ) {
+                $arrayKey = 'primary_id';
+            } else {
+                $arrayKey = 'display_id';
+            }
+            $targetId = $mapping[$arrayKey];
         }
     }
     return $targetId;
