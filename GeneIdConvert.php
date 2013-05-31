@@ -35,18 +35,17 @@
  *      Uniprot_genename
  *      WikiGene
  *
-*/
+ */
 
 $wgHooks['ParserFirstCallInit'][] = 'wfGeneIdConvertParserInit';
  
 // Hook our callback function into the parser
 function wfGeneIdConvertParserInit( Parser $parser ) {
-        // When the parser sees the <geneidconv> tag, it executes 
-        // the wfSampleRender function (see below)
-        $parser->setHook( 'geneidconv', 'wfGeneIdConvRender' );
-        // Always return true from this function. The return value does not denote
-        // success or otherwise have meaning - it just must always be true.
-        return true;
+    // When the parser sees the <geneidconv> tag, it executes 
+    $parser->setHook( 'geneidconv', 'wfGeneIdConvRender' );
+    // Always return true from this function. The return value does not denote
+    // success or otherwise have meaning - it just must always be true.
+    return true;
 }
  
 // Execute 
@@ -55,13 +54,14 @@ function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $f
     $targetId = "";
     $toFormat = $args['to'];
 
-    // Test the new Ensemble REST API with an example gene
+    // Construct the Query URL
     $queryUrl = $ensemblRestBaseUrl . '/' . $srcGeneId . '?content-type=application/json';
+    // Do the actualy querying of the REST API
     $resultJson = file_get_contents($queryUrl);
-    
+    // Convert from JSON to associative array structure 
     $result = json_decode($resultJson, true);
     
-    // Print out each found gene name on a separate row
+    // Get the Gene Id that corresponds to our desired target format
     foreach ($result as $mapping) {
         if ( $mapping['dbname'] == $toFormat ) {
             $targetId = $mapping['display_id'];
