@@ -17,9 +17,7 @@ Installation
 
 2. Add the following line to your LocalSettings.php file:
  
-````
-require_once("$IP/extensions/GeneIdConvert/GeneIdConvert.php"); 
-````
+   ````require_once("$IP/extensions/GeneIdConvert/GeneIdConvert.php");````
 
 3. Example usage of the extension within a MediaWiki article:
 

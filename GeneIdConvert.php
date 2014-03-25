@@ -51,6 +51,9 @@ function wfGeneIdConvertParserInit( Parser $parser ) {
 // Execute 
 function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $frame ) {
 
+    // Disable cache, at least for debugging purposes
+    $parser->disableCache();
+
     // Parse any wiki text in the content of the tag:
     $srcGeneId = $parser->recursiveTagParse( $srcGeneId, $frame );
 
@@ -62,22 +65,39 @@ function wfGeneIdConvRender( $srcGeneId, array $args, Parser $parser, PPFrame $f
     // Construct the Query URL
     $queryUrl = $ensemblRestBaseUrl . '/' . $srcGeneId . '?content-type=application/json';
     // Need to set this to allow file_get_contents to ask for URLs
-    ini_set('allow_url_fopen', true);
+    ini_set('allow_url_fopen', 1);
     // Do the actualy querying of the REST API
-    $resultJson = file_get_contents($queryUrl);
+    //$resultJson = file_get_contents( $queryUrl );
+    $resultJson = wfGetRemoteData( $queryUrl );
     // Convert from JSON to associative array structure 
     $result = json_decode($resultJson, true);
     
     // Get the Gene Id that corresponds to our desired target format
-    foreach ($result as $mapping) {
-        if ( $mapping['dbname'] == $toFormat ) {
-            if ( $toFormat == 'EntrezGene' ) {
-                $arrayKey = 'primary_id';
-            } else {
-                $arrayKey = 'display_id';
+    if ( isset( $result ) ) {
+        foreach ($result as $mapping) {
+            if ( $mapping['dbname'] == $toFormat ) {
+                if ( $toFormat == 'EntrezGene' ) {
+                    $arrayKey = 'primary_id';
+                } else {
+                    $arrayKey = 'display_id';
+                }
+                $targetId = $mapping[$arrayKey];
             }
-            $targetId = $mapping[$arrayKey];
         }
+    } else {
+        $targetId = 'N/A';
     }
-    return $targetId;
+    // echo "TargetId: [$targetId]";
+    return (string)$targetId;
+}
+
+function wfGetRemoteData( $url ) {
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    return $data;
 }
