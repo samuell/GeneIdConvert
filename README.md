@@ -2,12 +2,10 @@ A Simple MediaWiki extension that converts from Ensembl Gene ID to
 desired target gene ID type, by using the CrossRef endpoint of the
 new Ensembl REST API.
 
-Author:  Samuel Lampa - samuel.lampa@gmail.com
-Created Date:    2013-05-31
+Author: Samuel Lampa - samuel.lampa@gmail.com
+Created Date: 2013-05-31
  
-More info on the REST API Here:
-
-    http://beta.rest.ensembl.org
+More info on the REST API Here: http://beta.rest.ensembl.org
 
 Installation
 ------------
@@ -21,17 +19,21 @@ Installation
 require_once("$IP/extensions/GeneIdConvert/GeneIdConvert.php");
 ````
 
-- Example usage of the extension within a MediaWiki article:
+Usage
+------------
+
+Example usage of the extension within a MediaWiki article:
 
 ````
 {{ #geneidconv: ENSG00000157764 | EntrezGene }}
 ````
 
 ... where the first field is the source ID (in Ensembl ID format) 
-and the second field is the target id type.
+and the second field is the target ID type.
 
-A few of the avaible options for the "to" parameter, is (as of 
-writing this) are the following:
+A few of the avaible options for the target ID (as of 
+writing this) can be found below (please note that the lower/upper-
+casing might be important):
 
 - OTTG
 - ArrayExpress
