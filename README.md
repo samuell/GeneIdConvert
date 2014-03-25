@@ -12,14 +12,16 @@ More info on the REST API Here:
 Installation
 ------------
 
-1. Place this file into a folder extensions/GeneIdConvert in your
+- Place this file into a folder extensions/GeneIdConvert in your
    wiki folder.
 
-2. Add the following line to your LocalSettings.php file:
+- Add the following line to your LocalSettings.php file:
  
-   ````require_once("$IP/extensions/GeneIdConvert/GeneIdConvert.php");````
+````
+require_once("$IP/extensions/GeneIdConvert/GeneIdConvert.php");
+````
 
-3. Example usage of the extension within a MediaWiki article:
+- Example usage of the extension within a MediaWiki article:
 
 ````
 <geneidconv to="EntrezGene">ENSG00000157764</gene>
